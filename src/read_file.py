@@ -5,7 +5,7 @@ def read_data():
     # adc_add = 0x60 for example, address of the adc on i2c bus
     # reg = 0x01 address for the data from bus to be saved to
     # data_read = bus.read_i2c_block_data(adc_add, reg, 2)
-    #             (i2c address, register to be stored in, number of bytes to be read)
+    #           (i2c address, register to be stored in, number of bytes to be read)
 
     data_read = [0x00, 0xFF] # format of the data read above [msbyte, lsbyte], temporary
 
