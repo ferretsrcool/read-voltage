@@ -1,18 +1,24 @@
 """Module for reading ADC data."""
+import random
+import smbus
 
+i2c_ch = 1
+adc_add = 0x68
+reg = 0x18
+bus = smbus.SMBus(i2c_ch)
 
 def read_data():
     """Reads the i2c input data and returns the adc output code."""
-    # adc_add = 0x60 for example, address of the adc on i2c bus
-    # reg = 0x01 address for the data from bus to be saved to
-    # data_read = bus.read_i2c_block_data(adc_add, reg, 2)
+    data_read = bus.read_i2c_block_data(adc_add, reg, 2)
     #           (i2c address, register to be stored in, number of bytes to be read)
 
-    data_read = [0x00, 0xFF]  # format of the data read above [msbyte, lsbyte], temporary
+    #data_read = [0x00, 0xFF]  # format of the data read above [msbyte, lsbyte], temporary
 
     temp = (data_read[0] << 8) | data_read[1]  # concatenates the bytes of the input data
 
     val = twos_comp(temp)  # converts twos compliment number
+
+    #val = random.randint(-32768, 32767)
 
     return val
 
@@ -31,8 +37,13 @@ def conv_voltage(val):
 def conv_magnetic(voltage):
     """Calculates the magnetic field from a recorded voltage."""
     gain = 1  # tbd based on amplifier circuit
-
+    A = 3.14159265358979323846264*0.02*0.02 # Cross-sectional area of probe
+    N = 27  # Number of turns in the coil
+    
     voltage = voltage / gain
+
+    #mag = voltage/(A*N)
+    
 
     # tbd conversion of magnetic field to voltage based on probe
 
