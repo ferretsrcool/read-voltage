@@ -5,7 +5,7 @@ import os  # noqa: I001
 import read_file as rf  # noqa: I001
 import time  # noqa: I001
 import smbus  # noqa: I001
-# import requests  # noqa: I001
+import requests  # noqa: I001
 
 i2c_ch = 1
 adc_add = 0x68
@@ -34,7 +34,7 @@ def start_callback(channel):
     global start
     start = not start
     if (not start):
-        # requests.post("http://10.14.176.120:8080/reading")
+        requests.post("http://10.14.176.120:8080/reading")
         print("STOP READING")
     else:
         print("START READING")
@@ -76,7 +76,7 @@ val = 0
 while(1):
     if(start):                     # only starts reading in start mode
         mag = rf.get_sample()       # reads sample
-        # print(requests.post("http://10.14.176.120:8080/reading/" + str(mag)))
+        requests.post("http://10.14.176.120:8080/reading/" + str(mag))
         mag_list.append(mag)        # adds to a list of the previous 10 values
 
         # deletes the first value if there are more than 10 in the list
