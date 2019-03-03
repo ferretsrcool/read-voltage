@@ -50,7 +50,7 @@ padding = -2
 top = padding
 bottom = height-padding
 
-font = ImageFont.truetype('gargi.ttf', 23)
+font = ImageFont.truetype('/root/font.ttf', 23)
 
 
 
