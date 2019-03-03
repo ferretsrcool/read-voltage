@@ -81,7 +81,7 @@ def start_callback(channel):
     global start
     start = not start
     if (not start):
-        #requests.post("http://10.14.176.120:8080/reading")
+        requests.post("http://10.14.176.120:8080/reading")
         print("STOP READING")
     else:
         print("START READING")
@@ -125,7 +125,7 @@ while(1):
         # Draw a black filled box to clear the image.
         draw.rectangle((0,0,width,height), outline=0, fill=0)
         mag = rf.get_sample()       # reads sample
-        #print(requests.post("http://10.14.176.120:8080/reading/" + str(mag)))
+        requests.post("http://10.14.176.120:8080/reading/" + str(mag))
         mag_list.append(mag)        # adds to a list of the previous 10 values
 
         # deletes the first value if there are more than 10 in the list
