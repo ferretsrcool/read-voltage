@@ -6,7 +6,7 @@ import os  # noqa: I001
 import read_file as rf  # noqa: I001
 import time  # noqa: I001
 import smbus  # noqa: I001
-import requests  # noqa: I001
+import httplib2
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 from PIL import Image
@@ -68,14 +68,16 @@ GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Start/Stop , GPIO - 23
 GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Real time/ Average , GPIO - 25
 
 
+def request(url, method):
+    """HTTP request function."""
+    h = httplib2.Http(".cache")
+    return h.request(url, method)
+
 # button interupt functions
 def power_callback(channel):
     """Shut down interupt."""
     print("Power Off")
-    try:
-        requests.post("http://10.14.176.120:8080/reading")
-    except requests.exceptions.RequestException as e:
-        pass
+    request(config.API_URL + "/reading", "POST")
     os.system("shutdown now -h")
 
 
@@ -84,10 +86,7 @@ def start_callback(channel):
     global start
     start = not start
     if (not start):
-        try:
-            requests.post("http://10.14.176.120:8080/reading")
-        except requests.exceptions.RequestException as e:
-            pass
+        request(config.API_URL + "/reading", "POST")
         print("STOP READING")
     else:
         print("START READING")
@@ -131,10 +130,7 @@ while(1):
         # Draw a black filled box to clear the image.
         draw.rectangle((0,0,width,height), outline=0, fill=0)
         mag = rf.get_sample()       # reads sample
-        try:
-            requests.post("http://10.14.176.120:8080/reading/" + str(mag))
-        except requests.exceptions.RequestException as e:
-            pass
+        request(config.API_URL + "/reading/" + str(mag), "POST")
         mag_list.append(mag)        # adds to a list of the previous 10 values
 
         # deletes the first value if there are more than 10 in the list
