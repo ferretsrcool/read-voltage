@@ -6,6 +6,7 @@ import read_file as rf  # noqa: I001
 import time  # noqa: I001
 import smbus  # noqa: I001
 import requests  # noqa: I001
+<<<<<<< HEAD
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 from PIL import Image
@@ -53,6 +54,8 @@ font = ImageFont.truetype('gargi.ttf', 23)
 
 
 
+=======
+>>>>>>> be90078131283d0087c6e419ea33f98453127b07
 
 i2c_ch = 1
 adc_add = 0x68
