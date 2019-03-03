@@ -1,6 +1,7 @@
 """Main file containing running loop of program."""
 from RPi import GPIO  # noqa: I003
 
+import config # load environment variables
 import os  # noqa: I001
 import read_file as rf  # noqa: I001
 import time  # noqa: I001
@@ -50,12 +51,8 @@ padding = -2
 top = padding
 bottom = height-padding
 
-font = ImageFont.truetype('/root/font.ttf', 23)
+font = ImageFont.truetype(config.FONT_PATH, 23)
 
-
-
-=======
->>>>>>> be90078131283d0087c6e419ea33f98453127b07
 
 i2c_ch = 1
 adc_add = 0x68
