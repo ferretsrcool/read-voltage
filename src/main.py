@@ -5,7 +5,7 @@ import os  # noqa: I001
 import read_file as rf  # noqa: I001
 import time  # noqa: I001
 import smbus  # noqa: I001
-import requests  # noqa: I001
+import httplib2
 
 i2c_ch = 1
 adc_add = 0x68
@@ -22,10 +22,16 @@ GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Start/Stop , GPIO - 23
 GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Real time/ Average , GPIO - 25
 
 
+def request(url, method):
+    """HTTP request function."""
+    h = httplib2.Http(".cache")
+    return h.request(url, method)
+
 # button interupt functions
 def power_callback(channel):
     """Shut down interupt."""
     print("Power Off")
+    request(config.API_URL + "/reading", "POST")
     os.system("shutdown now -h")
 
 
@@ -34,7 +40,7 @@ def start_callback(channel):
     global start
     start = not start
     if (not start):
-        requests.post("http://10.14.176.120:8080/reading")
+        request(config.API_URL + "/reading", "POST")
         print("STOP READING")
     else:
         print("START READING")
@@ -76,7 +82,7 @@ val = 0
 while(1):
     if(start):                     # only starts reading in start mode
         mag = rf.get_sample()       # reads sample
-        requests.post("http://10.14.176.120:8080/reading/" + str(mag))
+        request(config.API_URL + "/reading/" + str(mag), "POST")
         mag_list.append(mag)        # adds to a list of the previous 10 values
 
         # deletes the first value if there are more than 10 in the list
