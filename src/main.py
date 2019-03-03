@@ -29,7 +29,7 @@ def power_callback(channel):
     try:
         requests.post("http://10.14.176.120:8080/reading")
     except requests.exceptions.RequestException as e:
-        continue
+        pass
     os.system("shutdown now -h")
 
 
@@ -38,7 +38,10 @@ def start_callback(channel):
     global start
     start = not start
     if (not start):
-        requests.post("http://10.14.176.120:8080/reading")
+        try:
+            requests.post("http://10.14.176.120:8080/reading")
+        except requests.exceptions.RequestException as e:
+            pass
         print("STOP READING")
     else:
         print("START READING")
@@ -80,7 +83,10 @@ val = 0
 while(1):
     if(start):                     # only starts reading in start mode
         mag = rf.get_sample()       # reads sample
-        requests.post("http://10.14.176.120:8080/reading/" + str(mag))
+        try:
+            requests.post("http://10.14.176.120:8080/reading/" + str(mag))
+        except requests.exceptions.RequestException as e:
+            pass
         mag_list.append(mag)        # adds to a list of the previous 10 values
 
         # deletes the first value if there are more than 10 in the list
