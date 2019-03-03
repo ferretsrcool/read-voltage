@@ -26,6 +26,10 @@ GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Real time/ Average , GPIO -
 def power_callback(channel):
     """Shut down interupt."""
     print("Power Off")
+    try:
+        requests.post("http://10.14.176.120:8080/reading")
+    except requests.exceptions.RequestException as e:
+        continue
     os.system("shutdown now -h")
 
 
