@@ -7,7 +7,6 @@ import read_file as rf  # noqa: I001
 import time  # noqa: I001
 import smbus  # noqa: I001
 import requests  # noqa: I001
-<<<<<<< HEAD
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 from PIL import Image
