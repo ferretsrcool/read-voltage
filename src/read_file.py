@@ -40,7 +40,7 @@ def conv_magnetic(voltage):
 
     voltage = voltage / gain
 
-    mag = voltage * 0.064
+    mag = voltage * 0.00000641 
 
     return mag 
 
