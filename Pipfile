@@ -14,6 +14,7 @@ verify_ssl = true
 "flake8-todo" = "*"
 
 [packages]
+httplib2 = "*"
 
 [requires]
 python_version = "3.7"
