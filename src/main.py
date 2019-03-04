@@ -7,51 +7,6 @@ import read_file as rf  # noqa: I001
 import time  # noqa: I001
 import smbus  # noqa: I001
 import httplib2
-import Adafruit_GPIO.SPI as SPI
-import Adafruit_SSD1306
-from PIL import Image
-from PIL import ImageDraw
-from PIL import ImageFont
-import subprocess
-
-
-"""
-Set up display settings
-"""
-# Raspberry Pi pin configuration:
-RST = None     # on the PiOLED this pin isnt used
-# Note the following are only used with SPI:
-DC = 23
-SPI_PORT = 0
-SPI_DEVICE = 0
-
-disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST)
-
-disp.begin()
-
-# Clear display.
-disp.clear()
-disp.display()
-
-# Create blank image for drawing.
-# Make sure to create image with mode '1' for 1-bit color.
-width = disp.width
-height = disp.height
-image = Image.new('1', (width, height))
-
-# Get drawing object to draw on image.
-draw = ImageDraw.Draw(image)
-
-# Draw a black filled box to clear the image.
-draw.rectangle((0,0,width,height), outline=0, fill=0)
-
-#lcd border settings
-padding = -2
-top = padding
-bottom = height-padding
-
-font = ImageFont.truetype(config.FONT_PATH, 23)
-
 
 i2c_ch = 1
 adc_add = 0x68
@@ -127,8 +82,6 @@ val = 0
 # main loop
 while(1):
     if(start):                     # only starts reading in start mode
-        # Draw a black filled box to clear the image.
-        draw.rectangle((0,0,width,height), outline=0, fill=0)
         mag = rf.get_sample()       # reads sample
         request(config.API_URL + "/reading/" + str(mag), "POST")
         mag_list.append(mag)        # adds to a list of the previous 10 values
@@ -143,10 +96,5 @@ while(1):
         else:
             val = av_list(mag_list)
         print(val)                  # prints the print value
-        #write text
-        draw.text((0, top),       str(val) + "V",  font=font, fill=255)
 
-        # Display image.
-        disp.image(image)
-        disp.display()
     time.sleep(.3)

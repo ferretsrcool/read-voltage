@@ -36,17 +36,13 @@ def conv_voltage(val):
 
 def conv_magnetic(voltage):
     """Calculates the magnetic field from a recorded voltage."""
-    gain = 1  # tbd based on amplifier circuit
-    # A = 3.14159265358979323846264*0.02*0.02 # Cross-sectional area of probe
-    # N = 27  # Number of turns in the coil
+    gain = 39.18  # tbd based on amplifier circuit
 
     voltage = voltage / gain
 
-    # mag = voltage/(A*N)
+    mag = voltage * 0.064
 
-    # tbd conversion of magnetic field to voltage based on probe
-
-    return voltage
+    return mag 
 
 
 def twos_comp(val):
