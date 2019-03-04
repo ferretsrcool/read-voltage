@@ -56,7 +56,7 @@ files_count = len(files_data)
 for i in range(files_count):
   draw.rectangle((0,0,width,height), outline=0, fill=0)
   draw.text((0, top), "Updating Device",  font=font, fill=255)
-  draw.text((0, top+15)), (" -Updating" + files_data[i]["fileName"]),  font=font, fill=255)
+  draw.text(((0, top+15)), (" -Updating" + files_data[i]["fileName"]),  font=font, fill=255)
   time.sleep(.2)
   disp.image(image)
   disp.display()
